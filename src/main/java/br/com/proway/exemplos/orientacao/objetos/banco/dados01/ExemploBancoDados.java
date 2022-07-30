@@ -23,21 +23,21 @@ public class ExemploBancoDados {
 //              
 //              System.out.println("Registro apagado com sucesso");
 //            
-              Statement executor = conexao.createStatement();
-              executor.execute("select id, modelo, marca, preco from carros");
-              ResultSet registros = executor.getResultSet();
-              
-              while(registros.next()){
-                  int id = Integer.parseInt(registros.getString("id"));
-                  String modelo = registros.getString("modelo");
-                  String marca = registros.getString("marca");
-                  double preco = Double.parseDouble(registros.getString("preco"));
-                  System.out.println(
-                  "codigo: " + id +
-                          " - modelo: " + modelo + 
-                          " - marca: " + marca + 
-                          " - preco: " + preco);
-              }
+            Statement executor = conexao.createStatement();
+            executor.execute("select id, modelo, marca, preco from carros");
+            ResultSet registros = executor.getResultSet();
+
+            while (registros.next()) {
+                int id = Integer.parseInt(registros.getString("id"));
+                String modelo = registros.getString("modelo");
+                String marca = registros.getString("marca");
+                double preco = Double.parseDouble(registros.getString("preco"));
+                System.out.println(
+                        "codigo: " + id
+                        + " - modelo: " + modelo
+                        + " - marca: " + marca
+                        + " - preco: " + preco + "\n");
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
