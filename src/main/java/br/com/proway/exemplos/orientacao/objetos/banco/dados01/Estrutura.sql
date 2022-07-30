@@ -16,3 +16,8 @@ insert into carros(modelo, marca, preco) values
 
 select id, modelo, marca, preco from carros;
 
+create table jogos(
+	id int primary key auto_increment,
+	nome varchar(150),
+	tipo varchar(30)
+)
