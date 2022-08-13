@@ -42,7 +42,27 @@ public class JogoRepositorio implements JogoRepositorioInterface {
 
     @Override
     public JogoDao obterPorId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            var conexao = bancoDadosConexao.conectar();
+            var sql = "SELECT id, nome, tipo FROM jogos WHERE id = ?";
+            var preparador = conexao.prepareStatement(sql);
+            preparador.setInt(1, id);
+            preparador.execute();
+            var registros = preparador.getResultSet();
+            if (registros.next()) {
+                var jogo = new JogoDao();
+                jogo.setId(Integer.parseInt(registros.getString("id")));
+
+                jogo.setNome(registros.getString("nome"));
+                jogo.setTipo(registros.getString("tipo"));
+
+                return jogo;
+            }
+
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -75,12 +95,46 @@ public class JogoRepositorio implements JogoRepositorioInterface {
 
     @Override
     public boolean atualizar(JogoDao jogo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            var conexao = bancoDadosConexao.conectar();
+            var sql = "UPDATE jogos SET nome = ?, tipo = ? WHERE id = ?";
+            var preparador = conexao.prepareCall(sql);
+            preparador.setString(1, jogo.getNome());
+            preparador.setString(2, jogo.getTipo());
+            preparador.setInt(3, jogo.getId());
+
+            var quantidadeRegistrosAfetados = preparador.executeUpdate();
+
+            var alterou = quantidadeRegistrosAfetados == 1;
+
+            return alterou;
+
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     @Override
     public boolean apagar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            var conexao = bancoDadosConexao.conectar();
+            var sql = "DELETE FROM jogos WHERE id = ?";
+            var preparador = conexao.prepareStatement(sql);
+            preparador.setInt(1, id);
+            var registrosAfetados = preparador.executeUpdate();
+
+//            if (registrosAfetados == 1){
+//                return true;
+//            } else{
+//                return false;
+//            }
+//            var apagou = registrosAfetados == 1;
+//            return apagou;
+            return registrosAfetados == 1;
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
