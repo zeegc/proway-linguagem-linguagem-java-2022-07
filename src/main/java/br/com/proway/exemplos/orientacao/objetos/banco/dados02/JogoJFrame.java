@@ -13,9 +13,11 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author 72031
+ * @author moc
  */
 public class JogoJFrame extends javax.swing.JFrame {
+
+    private int codigoEditar = -1;
 
     /**
      * Creates new form JogoJFrame
@@ -35,28 +37,19 @@ public class JogoJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelJogos = new javax.swing.JLabel();
-        jButtonApagar = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableJogos = new javax.swing.JTable();
+        jButtonEditar = new javax.swing.JButton();
+        jButtonApagar = new javax.swing.JButton();
         jLabelNome = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
         jLabelTipo = new javax.swing.JLabel();
-        jButtonSalvar = new javax.swing.JButton();
         jComboBoxTipo = new javax.swing.JComboBox<>();
+        jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelJogos.setText("Jogos");
-
-        jButtonApagar.setText("Apagar");
-        jButtonApagar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApagarActionPerformed(evt);
-            }
-        });
-
-        jButtonEditar.setText("Editar");
 
         jTableJogos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -77,13 +70,28 @@ public class JogoJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableJogos);
         if (jTableJogos.getColumnModel().getColumnCount() > 0) {
             jTableJogos.getColumnModel().getColumn(0).setResizable(false);
-            jTableJogos.getColumnModel().getColumn(1).setResizable(false);
-            jTableJogos.getColumnModel().getColumn(2).setResizable(false);
         }
+
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
+
+        jButtonApagar.setText("Apagar");
+        jButtonApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApagarActionPerformed(evt);
+            }
+        });
 
         jLabelNome.setText("Nome");
 
         jLabelTipo.setText("Tipo");
+
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estratégia", "FPS", "RPG" }));
+        jComboBoxTipo.setSelectedIndex(-1);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -92,30 +100,33 @@ public class JogoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FPS", "RPG", "Estrategia", " " }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelJogos)
-                        .addGap(196, 196, 196)
-                        .addComponent(jButtonApagar)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButtonEditar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelNome)
-                    .addComponent(jLabelTipo)
-                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBoxTipo, 0, 299, Short.MAX_VALUE)
-                    .addComponent(jTextFieldNome))
-                .addGap(15, 94, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelJogos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldNome)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jComboBoxTipo, 0, 378, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,12 +134,12 @@ public class JogoJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelJogos)
-                    .addComponent(jButtonApagar)
                     .addComponent(jButtonEditar)
+                    .addComponent(jButtonApagar)
                     .addComponent(jLabelNome))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -136,55 +147,135 @@ public class JogoJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSalvar)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(jButtonSalvar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonApagarActionPerformed
-
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         try {
-            Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost/lojaBd", "root", "admin");
+            Connection conexao = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/lojaBd", "root", "admin");
+
             Statement executor = conexao.createStatement();
 
             String nome = jTextFieldNome.getText();
             String tipo = jComboBoxTipo.getSelectedItem().toString();
 
-            executor.execute("insert into jogos (nome, tipo) values('" + nome + "', '" + tipo + "')");
+            if (codigoEditar == -1) {
+                executor.execute("INSERT INTO jogos (nome, tipo) VALUES ('"
+                        + nome + "', '" + tipo + "')");
+            } else {
+                executor.execute("UPDATE jogos SET nome = '" + nome + "', tipo = '"
+                        + tipo + "' WHERE id = " + codigoEditar);
+            }
+
+            limparCampos();
+            listarJogos();
+
             JOptionPane.showMessageDialog(this, "Jogo cadastrado com sucesso");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Nao foi possivel realizar a operacao");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Não foi possível realizar a operação");
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        try {
+            // Desobrir o código do registro que deseja alterar
+            DefaultTableModel modelo = (DefaultTableModel) jTableJogos.getModel();
+            int indiceLinhaSelecionada = jTableJogos.getSelectedRow();
+            // Obter o código da coluna 0 que contém o código do jogo selecionado
+            codigoEditar = Integer.parseInt(modelo
+                    .getValueAt(indiceLinhaSelecionada, 0).toString());
+            // Abrir conexão com o banco de dados
+            var conexao = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/lojaBd", "root", "admin");
+            // Executar comando para consultar os dados da tabela de jogos
+            var executor = conexao.createStatement();
+            executor.execute("SELECT nome, tipo FROM jogos WHERE id = " + codigoEditar);
+            // Obter os dados da consulta
+            ResultSet registros = executor.getResultSet();
+            // Verifica se encontrou algum registro
+            if (registros.next()) {
+                // Obtém os dados da consulta
+                var nome = registros.getString("nome");
+                var tipo = registros.getString("tipo");
+                // Preenche os campos com os dados da consulta
+                jTextFieldNome.setText(nome);
+                jComboBoxTipo.setSelectedItem(tipo);
+            } else {
+                // Apresenta mensagem informando que não encontrou nenhum registro com o id escolhido
+                JOptionPane.showMessageDialog(this,
+                        "Não foi possível encontrar o registro");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Não foi possível executar o comando");
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarActionPerformed
+        try {
+            // Descobrir o código do registro que deseja apagar
+            DefaultTableModel modelo = (DefaultTableModel) jTableJogos
+                    .getModel();
+            int indiceLinhaSelecionada = jTableJogos.getSelectedRow();
+            // Obter o código da coluna 0 que é a coluna do código no JTable
+            int codigo = Integer.parseInt(modelo
+                    .getValueAt(indiceLinhaSelecionada, 0).toString());
+            // Conectar no banco de dados
+            var conexao = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/lojaBd", "root", "admin");
+            // Executar o comando para apagar o registro da tabela de jogos
+            var executor = conexao.createStatement();
+            executor.execute("DELETE FROM jogos WHERE id = " + codigo);
+            // Fechar a conexão do banco de dados
+            conexao.close();
+            // Listar os jogos
+            listarJogos();
+            // Apresentar feedback de que o registro foi apagado
+            JOptionPane.showMessageDialog(this, "Registro apagado com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Não foi possível apagar");
+        }
+    }//GEN-LAST:event_jButtonApagarActionPerformed
+
+    private void limparCampos(){
+        jTextFieldNome.setText("");
+        jComboBoxTipo.setSelectedIndex(-1);
+        // Retornar para modo de cadastro, o que permitirá o usuário cadastrar novamente.
+        codigoEditar = -1;
+    }
+    
     private void listarJogos() {
         try {
             Connection conexao = DriverManager.getConnection(
                     "jdbc:mysql://localhost/lojaBd", "root", "admin");
             Statement executor = conexao.createStatement();
-            executor.execute("SELECT id, nome, tipo from jogos");
-
+            executor.execute("SELECT id, nome, tipo FROM jogos");
             ResultSet registros = executor.getResultSet();
-
-            DefaultTableModel modeloTabela = (DefaultTableModel) jTableJogos.getModel();
-            modeloTabela.setRowCount(0);
+            DefaultTableModel modeloTabela
+                    = (DefaultTableModel) jTableJogos.getModel();
+            modeloTabela.setRowCount(0);// limpar tabela
             while (registros.next()) {
                 int id = Integer.parseInt(registros.getString("id"));
                 String nome = registros.getString("nome");
                 String tipo = registros.getString("tipo");
                 modeloTabela.addRow(new Object[]{id, nome, tipo});
             }
-
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Nao foi possivel carregar os jogos");
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível carregar os jogos");
         }
     }
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
